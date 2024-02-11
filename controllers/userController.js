@@ -1,5 +1,6 @@
 // controllers/userController.js
 const { User } = require('../models');
+const formatDate = require('../helpers/formatDate');
 
 const userController = {
   // Get all users
@@ -14,7 +15,15 @@ const userController = {
         select: '-__v'
       })
       .select('-__v')
-      .then(dbUserData => res.json(dbUserData))
+      .then(dbUserData => {
+        // Format timestamps using formatDate function
+        dbUserData.forEach(user => {
+          user.thoughts.forEach(thought => {
+            thought.createdAt = formatDate(thought.createdAt);
+          });
+        });
+        res.json(dbUserData);
+      })
       .catch(err => {
         console.log(err);
         res.status(500).json(err);
@@ -38,6 +47,10 @@ const userController = {
           res.status(404).json({ message: 'No user found with this id!' });
           return;
         }
+        // Format timestamps using formatDate function
+        dbUserData.thoughts.forEach(thought => {
+          thought.createdAt = formatDate(thought.createdAt);
+        });
         res.json(dbUserData);
       })
       .catch(err => {

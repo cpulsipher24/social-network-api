@@ -1,5 +1,6 @@
 // controllers/thoughtController.js
 const { Thought, User, Reaction } = require('../models');
+const formatDate = require('../helpers/formatDate');
 
 const thoughtController = {
   // Get all thoughts
@@ -10,7 +11,13 @@ const thoughtController = {
         select: '-__v'
       })
       .select('-__v')
-      .then(dbThoughtData => res.json(dbThoughtData))
+      .then(dbThoughtData => {
+        // Format timestamps using formatDate function
+        dbThoughtData.forEach(thought => {
+          thought.createdAt = formatDate(thought.createdAt);
+        });
+        res.json(dbThoughtData);
+      })
       .catch(err => {
         console.log(err);
         res.status(500).json(err);
@@ -30,6 +37,8 @@ const thoughtController = {
           res.status(404).json({ message: 'No thought found with this id!' });
           return;
         }
+        // Format timestamps using formatDate function
+        dbThoughtData.createdAt = formatDate(dbThoughtData.createdAt);
         res.json(dbThoughtData);
       })
       .catch(err => {
