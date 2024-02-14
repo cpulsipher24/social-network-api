@@ -49,7 +49,7 @@ const thoughtSchema = new Schema (
         get: createdAtVal => moment(createdAtVal).format("MMM DD, YYYY [at] hh:mm a"),
       },
       username: {
-        type: Schema.Types.ObjectId,
+        type: Schema.Types.String,
         required: true,
       },
       reactions: [reactionSchema],
@@ -58,7 +58,7 @@ const thoughtSchema = new Schema (
         toJSON: {
             virtuals: true,
         },
-        id: false,
+        // id: false,
     }
 )
 

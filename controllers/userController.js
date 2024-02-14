@@ -12,11 +12,12 @@ module.exports = {
   },
 
   async getSingleUser(req, res) {
+    console.log(req.params)
     try {
       const user = await User.findOne({ _id: req.params.userId }).select(
         "-__v"
       );
-
+console.log(user)
       if (!user) {
         return res.status(404).json({ message: "No User found with this ID" });
       }
@@ -32,6 +33,7 @@ module.exports = {
       const userData = await User.create(req.body);
       res.json(userData);
     } catch (err) {
+      console.log(err)
       res.status(500).json(err);
     }
   },

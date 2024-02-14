@@ -29,7 +29,7 @@ module.exports = {
     try {
       const thoughtData = await Thought.create(req.body);
       const userData = await User.findOneAndUpdate(
-        { _id: req.body.username },
+        { username: req.body.username },
         { $addToSet: { thoughts: thoughtData._id } },
         { new: true }
       );
