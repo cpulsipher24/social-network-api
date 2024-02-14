@@ -1,25 +1,16 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const thoughtRoutes = require('./routes/thoughtRoutes');
-const userRoutes = require('./routes/userRoutes');
+const express = require("express");
+const db = require("./config/connection");
+const routes = require("./routes");
 
+const PORT = 3001;
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-// Middleware
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(routes);
 
-// Routes
-app.use('/api/thoughts', thoughtRoutes);
-app.use('/api/users', userRoutes);
-
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/social-network', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
-
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+db.once("open", () => {
+  app.listen(PORT, () => {
+    console.log(`API server running on port ${PORT}!`);
+  });
 });
