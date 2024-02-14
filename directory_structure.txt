@@ -13,13 +13,16 @@
 │   ├── Thought.js
 │   ├── User.js
 │   └── index.js
+├── package-lock.json
+├── package.json
 ├── routes
 │   ├── api
 │   │   ├── index.js
 │   │   ├── thoughtRoutes.js
 │   │   └── userRoutes.js
 │   └── index.js
+├── server.js
 └── utils
     └── seed.js
 
-8 directories, 15 files
+8 directories, 18 files
